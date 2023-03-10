@@ -11,6 +11,7 @@ import org.apache.poi.xssf.usermodel.XSSFWorkbook;
 import org.junit.Assert;
 
 import java.io.FileInputStream;
+import java.io.FileOutputStream;
 import java.io.IOException;
 
 public class LoginWithExcelCredentials {
@@ -52,10 +53,16 @@ public class LoginWithExcelCredentials {
                 System.out.println("Fail");
                 sheet.getRow(i).createCell(2).setCellValue("Fail");
             }
-        }
 
-        homePage.logout();
-        loginPage.usernameInput.clear();
+            homePage.logout();
+            loginPage.usernameInput.clear();
+        }
+        FileOutputStream output = new FileOutputStream("userCredentials.xlsx");
+        output.close();
+        file.close();
+
+
+
 
 
     }
