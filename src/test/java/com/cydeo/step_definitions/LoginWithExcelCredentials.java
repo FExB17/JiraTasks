@@ -58,8 +58,10 @@ public class LoginWithExcelCredentials {
             loginPage.usernameInput.clear();
         }
         FileOutputStream output = new FileOutputStream("userCredentials.xlsx");
+        workbook.write(output);
         output.close();
         file.close();
+        workbook.close();
 
 
 
