@@ -6,10 +6,17 @@ import com.cydeo.utilities.Driver;
 import com.cydeo.utilities.ExcelReader;
 import io.cucumber.java.en.Given;
 import io.cucumber.java.en.When;
+import org.apache.poi.ss.usermodel.CellStyle;
+import org.apache.poi.ss.usermodel.FillPatternType;
+import org.apache.poi.ss.usermodel.IndexedColors;
+import org.apache.poi.xssf.usermodel.XSSFCell;
+import org.apache.poi.xssf.usermodel.XSSFCellStyle;
 import org.apache.poi.xssf.usermodel.XSSFSheet;
 import org.apache.poi.xssf.usermodel.XSSFWorkbook;
 import org.junit.Assert;
+import org.openqa.selenium.support.Colors;
 
+import java.awt.*;
 import java.io.FileInputStream;
 import java.io.FileOutputStream;
 import java.io.IOException;
@@ -45,13 +52,16 @@ public class LoginWithExcelCredentials {
 
             loginPage.login(username, password);
 
+            XSSFCell resultCell = sheet.getRow(i).createCell(2);
 
             if (Driver.getDriver().getTitle().contains("Portal")) {
                 System.out.println("Pass");
-                sheet.getRow(i).createCell(2).setCellValue("Pass");
+                resultCell.setCellValue("Pass");
+
             } else {
                 System.out.println("Fail");
-                sheet.getRow(i).createCell(2).setCellValue("Fail");
+                resultCell.setCellValue("Fail");
+
             }
 
             homePage.logout();
@@ -62,9 +72,6 @@ public class LoginWithExcelCredentials {
         output.close();
         file.close();
         workbook.close();
-
-
-
 
 
     }
