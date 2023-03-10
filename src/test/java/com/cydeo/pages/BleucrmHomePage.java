@@ -12,10 +12,15 @@ public class BleucrmHomePage {
     }
 
 
-    @FindBy(id = "user-block")
+    @FindBy(xpath = "//div[@id='user-block']")
     public WebElement userProfile;
 
-    @FindBy(linkText = "/auth/?logout=yes&backurl=%2Fstream%2F")
+    @FindBy(xpath = "//span[.='Log out']")
     public WebElement logoutLink;
+
+    public void logout() {
+        userProfile.click();
+        logoutLink.click();
+    }
 
 }

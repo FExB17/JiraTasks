@@ -3,6 +3,7 @@ package com.cydeo.step_definitions;
 import com.cydeo.pages.BleucrmHomePage;
 import com.cydeo.pages.BleucrmLoginPage;
 import com.cydeo.utilities.Driver;
+import io.cucumber.java.en.And;
 import io.cucumber.java.en.Given;
 import io.cucumber.java.en.Then;
 import io.cucumber.java.en.When;
@@ -25,14 +26,17 @@ public class Login_StepDefinitions {
     @Given("User is on login page")
     public void user_is_on_login_page() {
         Driver.getDriver().get("https://qa.bleucrm.com/");
+        loginPage.usernameInput.clear();
     }
 
+    // fo feature file with data table
     @When("User enters valid username {string}")
     public void user_enters_valid(String string) {
         loginPage.usernameInput.sendKeys(string);
     }
 
-    @When("User enter valid password {string}")
+    // fo feature file with data table
+    @When("User enters valid password {string}")
     public void user_enter_valid(String string) {
         loginPage.passwordInput.sendKeys(string);
     }
@@ -47,43 +51,27 @@ public class Login_StepDefinitions {
         Assert.assertTrue(Driver.getDriver().getTitle().contains("Portal"));
     }
 
-    @When("User enters valid username")
-    public void user_enters_valid_username() throws IOException {
-        file = new FileInputStream("userCredentials.xlsx");
-        workbook = new XSSFWorkbook(file);
-        sheet = workbook.getSheet("Human Resources");
 
-        for (int i = 1; i <= sheet.getLastRowNum(); i++) {
-            String username = sheet.getRow(i).getCell(0).toString();
-            loginPage.usernameInput.sendKeys(username);
-
-        }
-    }
-
-    @When("User enter valid password")
-    public void user_enter_valid_password() {
-        for (int i = 1; i <= sheet.getLastRowNum(); i++) {
-            String password = sheet.getRow(i).getCell(1).toString();
-            loginPage.passwordInput.sendKeys(password);
-
-        }
-
-
-    }
-
+    //for feature file with excel sheet
     @When("{string} User enters valid username and password")
     public void userEntersValidUsernameAndPassword(String sheetName) throws IOException {
         file = new FileInputStream("userCredentials.xlsx");
         workbook = new XSSFWorkbook(file);
         sheet = workbook.getSheet(sheetName);
 
-        int i = 1;
-        if (i <= sheet.getLastRowNum()) {
-            String username = sheet.getRow(i++).getCell(0).toString();
-            loginPage.usernameInput.sendKeys(username);
-            String password = sheet.getRow(i++).getCell(1).toString();
-            loginPage.passwordInput.sendKeys(password);
+        for (int i = 1; i <= sheet.getLastRowNum(); i++) {
 
+            String username = sheet.getRow(i).getCell(0).toString();
+            String password = sheet.getRow(i).getCell(1).toString();
+
+            loginPage.login(username,password);
+            Assert.assertTrue(Driver.getDriver().getTitle().contains("Portal"));
+            homePage.logout();
+            loginPage.usernameInput.clear();
         }
+
+
+
     }
+
 }

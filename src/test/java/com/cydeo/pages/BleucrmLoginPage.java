@@ -37,6 +37,9 @@ public class BleucrmLoginPage {
         usernameInput.sendKeys(username);
         passwordInput.sendKeys(password);
         loginBtn.click();
+
     }
+
+
 
 }

@@ -11,8 +11,8 @@ Feature: Login functionality
   Scenario: Login as a Human Resources user
     When "Human Resources" User enters valid username and password
     # And User enters valid password
-    And User clicks login button
-    Then User should be logged in
+    # And User clicks login button
+   # Then User should be logged in
 
 
   @marketing
@@ -20,7 +20,7 @@ Feature: Login functionality
     When "Marketing" User enters valid username and password
     # And User enters valid password
     And User clicks login button
-    Then User should be logged in
+   # Then User should be logged in
 
 
   @helpdesk
@@ -28,4 +28,4 @@ Feature: Login functionality
     When "Helpdesk" User enters valid username and password
     # And User enters valid password
     And User clicks login button
-    Then User should be logged in
+   # Then User should be logged in
