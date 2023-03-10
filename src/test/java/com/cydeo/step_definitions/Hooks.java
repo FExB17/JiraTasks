@@ -25,10 +25,6 @@ public class Hooks {
         }
         Driver.closeDriver();
     }
-//@Before
-    public void credentials(){
-
-}
 
 
 }

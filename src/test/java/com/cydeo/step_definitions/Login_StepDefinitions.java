@@ -52,26 +52,5 @@ public class Login_StepDefinitions {
     }
 
 
-    //for feature file with excel sheet
-    @When("{string} User enters valid username and password")
-    public void userEntersValidUsernameAndPassword(String sheetName) throws IOException {
-        file = new FileInputStream("userCredentials.xlsx");
-        workbook = new XSSFWorkbook(file);
-        sheet = workbook.getSheet(sheetName);
-
-        for (int i = 1; i <= sheet.getLastRowNum(); i++) {
-
-            String username = sheet.getRow(i).getCell(0).toString();
-            String password = sheet.getRow(i).getCell(1).toString();
-
-            loginPage.login(username,password);
-            Assert.assertTrue(Driver.getDriver().getTitle().contains("Portal"));
-            homePage.logout();
-            loginPage.usernameInput.clear();
-        }
-
-
-
-    }
 
 }

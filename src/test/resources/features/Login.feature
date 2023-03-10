@@ -1,4 +1,4 @@
-
+@test
 Feature: Login functionality
 
   Agile story: As a user I should be able to login with valid credentials
