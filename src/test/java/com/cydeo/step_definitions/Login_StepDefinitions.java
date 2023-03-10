@@ -18,9 +18,13 @@ public class Login_StepDefinitions {
 
     BleucrmLoginPage loginPage = new BleucrmLoginPage();
     BleucrmHomePage homePage = new BleucrmHomePage();
-    FileInputStream file;
-    XSSFWorkbook workbook;
+    FileInputStream file = new FileInputStream("userCredentials.xlsx");
+
+    XSSFWorkbook workbook = new XSSFWorkbook(file);
     XSSFSheet sheet;
+
+    public Login_StepDefinitions() throws IOException {
+    }
 
 
     @Given("User is on login page")
@@ -29,16 +33,26 @@ public class Login_StepDefinitions {
         loginPage.usernameInput.clear();
     }
 
-    // fo feature file with data table
-    @When("User enters valid username {string}")
-    public void user_enters_valid(String string) {
-        loginPage.usernameInput.sendKeys(string);
+    @When("{string} User enters valid username")
+    public void userEntersValidUsername(String sheetName) {
+        sheet = workbook.getSheet(sheetName);
+
+        for (int i = 1; i <= sheet.getLastRowNum(); i++) {
+            String username = sheet.getRow(i).getCell(0).toString();
+            loginPage.usernameInput.sendKeys(username);
+
+
+        }
     }
 
-    // fo feature file with data table
-    @When("User enters valid password {string}")
-    public void user_enter_valid(String string) {
-        loginPage.passwordInput.sendKeys(string);
+    @And("{string} User enters valid password")
+    public void userEntersValidPassword(String sheetName) {
+        sheet = workbook.getSheet(sheetName);
+
+        for (int i = 1; i <= sheet.getLastRowNum(); i++) {
+            String password = sheet.getRow(i).getCell(1).toString();
+            loginPage.passwordInput.sendKeys(password);
+        }
     }
 
     @When("User clicks login button")
@@ -52,26 +66,5 @@ public class Login_StepDefinitions {
     }
 
 
-    //for feature file with excel sheet
-    @When("{string} User enters valid username and password")
-    public void userEntersValidUsernameAndPassword(String sheetName) throws IOException {
-        file = new FileInputStream("userCredentials.xlsx");
-        workbook = new XSSFWorkbook(file);
-        sheet = workbook.getSheet(sheetName);
-
-        for (int i = 1; i <= sheet.getLastRowNum(); i++) {
-
-            String username = sheet.getRow(i).getCell(0).toString();
-            String password = sheet.getRow(i).getCell(1).toString();
-
-            loginPage.login(username,password);
-            Assert.assertTrue(Driver.getDriver().getTitle().contains("Portal"));
-            homePage.logout();
-            loginPage.usernameInput.clear();
-        }
-
-
-
-    }
 
 }
