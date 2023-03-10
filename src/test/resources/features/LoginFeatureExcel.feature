@@ -19,7 +19,7 @@ Feature: Login functionality
   Scenario: Login as a marketing user
     When "Marketing" User enters valid username and password
     # And User enters valid password
-    And User clicks login button
+   # And User clicks login button
    # Then User should be logged in
 
 
@@ -27,5 +27,5 @@ Feature: Login functionality
   Scenario: Login as a helpdesk user
     When "Helpdesk" User enters valid username and password
     # And User enters valid password
-    And User clicks login button
+    # And User clicks login button
    # Then User should be logged in

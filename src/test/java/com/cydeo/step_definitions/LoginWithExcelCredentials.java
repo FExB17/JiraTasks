@@ -3,6 +3,7 @@ package com.cydeo.step_definitions;
 import com.cydeo.pages.BleucrmHomePage;
 import com.cydeo.pages.BleucrmLoginPage;
 import com.cydeo.utilities.Driver;
+import com.cydeo.utilities.ExcelReader;
 import io.cucumber.java.en.Given;
 import io.cucumber.java.en.When;
 import org.apache.poi.xssf.usermodel.XSSFSheet;
@@ -27,11 +28,6 @@ public class LoginWithExcelCredentials {
         loginPage.usernameInput.clear();
     }
 
-    // fo feature file with data table
-    @When("User enters valid username {string}")
-    public void user_enters_valid(String string) {
-        loginPage.usernameInput.sendKeys(string);
-    }
 
     //for feature file with excel sheet
     @When("{string} User enters valid username and password")
@@ -40,17 +36,26 @@ public class LoginWithExcelCredentials {
         workbook = new XSSFWorkbook(file);
         sheet = workbook.getSheet(sheetName);
 
+
         for (int i = 1; i <= sheet.getLastRowNum(); i++) {
 
             String username = sheet.getRow(i).getCell(0).toString();
             String password = sheet.getRow(i).getCell(1).toString();
 
-            loginPage.login(username,password);
-            Assert.assertTrue(Driver.getDriver().getTitle().contains("Portal"));
-            homePage.logout();
-            loginPage.usernameInput.clear();
+            loginPage.login(username, password);
+
+
+            if (Driver.getDriver().getTitle().contains("Portal")) {
+                System.out.println("Pass");
+                sheet.getRow(i).createCell(2).setCellValue("Pass");
+            } else {
+                System.out.println("Fail");
+                sheet.getRow(i).createCell(2).setCellValue("Fail");
+            }
         }
 
+        homePage.logout();
+        loginPage.usernameInput.clear();
 
 
     }

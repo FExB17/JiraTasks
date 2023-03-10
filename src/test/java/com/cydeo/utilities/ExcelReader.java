@@ -13,12 +13,12 @@ public class ExcelReader {
 
     static{
         try {
-            FileInputStream file = new FileInputStream(ConfigurationReader.getProperty("excel_credentials_path"));
+            String filePath = ConfigurationReader.getProperty("excel_credentials_path_for_BleuCRM");
+            FileInputStream file = new FileInputStream(filePath);
             workbook = new XSSFWorkbook(file);
         } catch (IOException e) {
             System.out.println("Invalid file path or file not found");
         }
-
     }
 
     public static XSSFSheet getSheet(String sheetName){
